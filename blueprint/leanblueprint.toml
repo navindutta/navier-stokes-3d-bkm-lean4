@@ -1,0 +1,12 @@
+[project]
+title = "3D Incompressible Navier-Stokes Formalization Blueprint"
+description = "Machine-Checked 3D Navier-Stokes Weak Solutions, Beale-Kato-Majda Blow-Up Control, and Caffarelli-Kohn-Nirenberg Partial Regularity in Lean 4"
+author = "Navin Dutta (ThoughtJumper / Metascientist Formal Mathematics Laboratory)"
+github = "https://github.com/navindutta/navier-stokes-3d-bkm-lean4"
+zenodo = "https://doi.org/10.5281/zenodo.22026305"
+lean_version = "v4.14.0"
+lake_package = "NS3D"
+
+[structure]
+src_dir = "blueprint/src"
+build_dir = "blueprint/web"

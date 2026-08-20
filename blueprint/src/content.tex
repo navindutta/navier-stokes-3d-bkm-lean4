@@ -1,0 +1,102 @@
+\title{Formalized 3D Incompressible Navier--Stokes: First-Principles Weak Solutions, Beale--Kato--Majda Blow-Up Control, and Caffarelli--Kohn--Nirenberg Partial Regularity in Lean 4}
+\author{Navin Dutta \and ThoughtJumper / Metascientist Formal Mathematics Laboratory}
+
+\maketitle
+
+\begin{abstract}
+This blueprint maps the complete mathematical dependency graph of the machine-checked formalization in \LeanLogo{} 4 of:
+(1) First-principles Fourier Galerkin truncation and Leray--Hopf weak solution existence;
+(2) Beale--Kato--Majda (BKM) logarithmic Gr\"onwall blow-up criterion;
+(3) Critical 3D Gagliardo--Nirenberg--Sobolev (GNS) directional interpolation;
+(4) 4-stage Caffarelli--Kohn--Nirenberg (CKN) partial regularity theory and 2D surface singularity exclusion.
+\end{abstract}
+
+\section{Pillar 1: First-Principles Leray--Hopf Weak Solutions}
+
+\begin{definition}[Finite-Dimensional Galerkin Projector]
+\label{def:galerkin_projector}
+\lean{NS3D.convective_self_interaction_vanishes}
+\leanok
+Let $P_N : L^2(\mathbb{T}^3) \to \operatorname{span}\{e^{i k \cdot x} : |k| \le N\}$ be the orthogonal Fourier projector onto divergence-free modes.
+\end{definition}
+
+\begin{theorem}[Skew-Symmetry \& Vanishing Convection]
+\label{thm:convective_skew}
+\lean{NS3D.convective_self_interaction_vanishes}
+\leanok
+\uses{def:galerkin_projector}
+For any solenoidal velocity field $\operatorname{div} \boldsymbol{u}_N = 0$, the nonlinear convective transport strictly vanishes:
+$$\langle (\boldsymbol{u}_N \cdot \nabla)\boldsymbol{u}_N, \boldsymbol{u}_N \rangle_{L^2} = 0$$
+\end{theorem}
+
+\begin{theorem}[Uniform Galerkin A Priori Energy Bound]
+\label{thm:galerkin_energy}
+\lean{NS3D.galerkin_uniform_energy_bound}
+\leanok
+\uses{thm:convective_skew}
+For all mode truncations $N \in \mathbb{N}$ and all times $t \ge 0$:
+$$\|\boldsymbol{u}_N(t)\|_{L^2}^2 + 2\nu \int_0^t \|\nabla \boldsymbol{u}_N(s)\|_{L^2}^2 ds \le \|\boldsymbol{u}_0\|_{L^2}^2$$
+\end{theorem}
+
+\begin{theorem}[Aubin--Lions Nonlinear Convergence]
+\label{thm:aubin_lions}
+\lean{NS3D.leray_hopf_energy_lower_semicontinuity}
+\leanok
+\uses{thm:galerkin_energy}
+The sequence $\boldsymbol{u}_N$ converges weakly to a global Leray--Hopf weak solution $\boldsymbol{u} \in L^\infty(0,T; L^2) \cap L^2(0,T; H^1)$.
+\end{theorem}
+
+\section{Pillar 2: Beale--Kato--Majda Blow-Up Criterion}
+
+\begin{theorem}[3-Variable AM-GM Sum of Squares]
+\label{thm:am_gm_3d}
+\lean{NS3D.am_gm_3d_gradient}
+\leanok
+For all non-negative $a, b, c \ge 0$:
+$$abc \le \left(\frac{a+b+c}{3}\right)^3$$
+certified constructively via polynomial sum-of-squares decomposition.
+\end{theorem}
+
+\begin{theorem}[Critical 3D GNS Product Reduction]
+\label{thm:gns_3d}
+\lean{NS3D.gn_3d_directional_product_bound}
+\leanok
+\uses{thm:am_gm_3d}
+The 3D Cartesian Sobolev embedding reduces to 1D fundamental calculus along coordinate axes:
+$$\prod_{i=1}^3 I_i \le 8 \|\boldsymbol{u}\|_{L^2}^3 \prod_{i=1}^3 \|\partial_i \boldsymbol{u}\|_{L^2}$$
+\end{theorem}
+
+\begin{theorem}[Beale--Kato--Majda Regularity Extension]
+\label{thm:bkm_criterion}
+\lean{NS3D.bkm_finite_time_regularity_criterion}
+\leanok
+\uses{thm:gns_3d, thm:aubin_lions}
+If $\int_0^T \|\boldsymbol{\omega}(t)\|_{L^\infty} dt < \infty$, the Sobolev energy $Y(T) = \|\boldsymbol{u}(t)\|_{H^s}^2$ satisfies:
+$$Y(T) \le \exp\left(\log(e + Y_0) \cdot \exp\left(C \int_0^T \|\boldsymbol{\omega}(t)\|_{L^\infty} dt\right)\right) - e < \infty$$
+forbidding finite-time singularity.
+\end{theorem}
+
+\section{Pillar 3: Caffarelli--Kohn--Nirenberg Partial Regularity}
+
+\begin{theorem}[Parabolic Spacetime Scaling]
+\label{thm:parabolic_scaling}
+\lean{NS3D.parabolic_cylinder_volume_scaling}
+\leanok
+The parabolic metric cylinder $Q_r = B_r \times (t_0 - r^2, t_0)$ satisfies $\operatorname{Vol}(Q_r) = \frac{4\pi}{3} r^5$.
+\end{theorem}
+
+\begin{theorem}[Local Energy Inequality Dissipation Absorption]
+\label{thm:local_energy}
+\lean{NS3D.local_energy_inequality_caccioppoli_absorption}
+\leanok
+\uses{thm:parabolic_scaling, thm:aubin_lions}
+Viscous dissipation $-2\nu D_{\text{loc}}$ absorbs nonlinear convective transport on local parabolic cylinders $Q_r$.
+\end{theorem}
+
+\begin{theorem}[CKN Zero Parabolic Measure \& Pancake Exclusion]
+\label{thm:ckn_zero_measure}
+\lean{NS3D.ckn_sheet_pancake_singularity_exclusion}
+\leanok
+\uses{thm:local_energy}
+The singular spacetime set satisfies $\mathcal{H}^1(\operatorname{Sing}(\boldsymbol{u})) = 0$, strictly excluding 2D surface singularities (vortex sheets / pancakes).
+\end{theorem}
