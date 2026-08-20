@@ -12,3 +12,6 @@ lean_lib NS3DGagliardoNirenberg where
 
 lean_lib NS3DBKMCriterion where
   roots := #[`NS3D_BKM_Criterion]
+
+lean_lib NS3DCKNPartialRegularity where
+  roots := #[`NS3D_CKN_PartialRegularity]
