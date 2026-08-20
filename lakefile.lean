@@ -15,3 +15,15 @@ lean_lib NS3DBKMCriterion where
 
 lean_lib NS3DCKNPartialRegularity where
   roots := #[`NS3D_CKN_PartialRegularity]
+
+lean_lib NS3DCKNStage1 where
+  roots := #[`NS3D_CKN_Stage1_ParabolicCylinders]
+
+lean_lib NS3DCKNStage2 where
+  roots := #[`NS3D_CKN_Stage2_LocalEnergyInequality]
+
+lean_lib NS3DCKNStage3 where
+  roots := #[`NS3D_CKN_Stage3_EpsilonRegularity]
+
+lean_lib NS3DCKNStage4 where
+  roots := #[`NS3D_CKN_Stage4_ZeroMeasure]
