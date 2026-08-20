@@ -27,3 +27,12 @@ lean_lib NS3DCKNStage3 where
 
 lean_lib NS3DCKNStage4 where
   roots := #[`NS3D_CKN_Stage4_ZeroMeasure]
+
+lean_lib NS3DGalerkin where
+  roots := #[`NS3D_Galerkin_Approximation]
+
+lean_lib NS3DAubinLions where
+  roots := #[`NS3D_AubinLions_Compactness]
+
+lean_lib NS3DLerayHopf where
+  roots := #[`NS3D_LerayHopf_WeakSolution]
